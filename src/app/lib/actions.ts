@@ -24,6 +24,9 @@ export type State = {
       message?: string | null;
 }
 
+const url = `${API_BASE_URL}/api/todos`;
+console.log('API URL:', url);
+
 export async function addTodoItem(preState: State | undefined, formData: FormData): Promise<State | undefined> {
     console.log('preState', preState);
     console.log('formData', formData);
@@ -37,13 +40,9 @@ export async function addTodoItem(preState: State | undefined, formData: FormDat
           message: 'Missing Fields. Failed to Create Todo.',
       };
     }
-    // 这里可以调用 API 或数据库来保存待办事项
-    // 示例：await saveTodoToDatabase(parsed.data);
     const { content } = parsed.data;
     console.log('Validated Content:', content);
     try {
-        const url = `${API_BASE_URL}/api/todos`;
-        console.log('API URL:', url);
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -69,7 +68,7 @@ export async function addTodoItem(preState: State | undefined, formData: FormDat
 
 // deleteTodoItem, toggleTodoItem can be added similarly
 export async function deleteTodoItem(id: string) {
-    await fetch('/api/todos', {
+    await fetch(url, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ id })
@@ -78,7 +77,7 @@ export async function deleteTodoItem(id: string) {
     revalidatePath('/todos')
 }   
 export async function toggleTodoItem(id: string, completed: boolean) {
-    await fetch('/api/todos', {
+    await fetch(url, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, completed })
@@ -87,7 +86,7 @@ export async function toggleTodoItem(id: string, completed: boolean) {
 }
 
 export async function getTodoItems() {
-    const response = await fetch('/api/todos', {
+    const response = await fetch(url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     })
@@ -95,7 +94,7 @@ export async function getTodoItems() {
 }
 
 export async function updateTodoItem(id: string, updates: Partial<Todo>) {
-    await fetch('/api/todos', {
+    await fetch(url, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, ...updates })

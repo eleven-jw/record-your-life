@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import TodoForm from "../app/components/TodoForm";
 import TodoList from "@/app/components/TodoList";
 import { Suspense } from "react";
@@ -13,9 +12,9 @@ export default function Home() {
           </h1>
 
         <TodoForm />
-        <Suspense fallback={<div>Loading...</div>}>
+        {/* <Suspense fallback={<div>Loading...</div>}> */}
           <TodoList />
-        </Suspense>
+        {/* </Suspense> */}
       </div>
     </div>
   )
