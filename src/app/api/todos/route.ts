@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 
     const todo = await prisma.todo.create({
       data: {
+        id: crypto.randomUUID(),
         content: content,
         completed: false,
         createdAt: new Date(),

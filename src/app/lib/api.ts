@@ -8,7 +8,7 @@ export type Todo = {
   createdAt: string;  // ISO 字符串（前端转 Date）
 };
 
-// 获取所有待办
+// getTodos
 export async function getTodos(): Promise<Todo[]> {
   try {
     const res = await fetch(`${API_URL}/todos`);
@@ -20,7 +20,7 @@ export async function getTodos(): Promise<Todo[]> {
   }
 }
 
-// 创建待办
+// createTodo
 export async function createTodo(content: string): Promise<Todo> {
   if (!content.trim()) throw new Error('待办内容不能为空');
   try {
@@ -37,7 +37,7 @@ export async function createTodo(content: string): Promise<Todo> {
   }
 }
 
-// 更新待办状态
+// updateTodo
 export async function toggleTodo(id: string, completed: boolean): Promise<Todo> {
   try {
     const res = await fetch(`${API_URL}/todos`, {
@@ -53,7 +53,7 @@ export async function toggleTodo(id: string, completed: boolean): Promise<Todo> 
   }
 }
 
-// 删除待办（软删除可选，这里直接物理删除）
+// deleteTodo
 export async function deleteTodo(id: string): Promise<void> {
   try {
     const res = await fetch(`${API_URL}/todos`, {
