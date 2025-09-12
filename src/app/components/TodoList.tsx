@@ -1,35 +1,15 @@
 'use client';
-import { useEffect, useState } from "react";
 import type { Todo } from "../lib/actions"
-import { getTodoItems, toggleTodoItem, deleteTodoItem } from "../lib/actions"
-type TodoListProps = {
-  todos: Todo[]; // 从父组件传递的待办列表
-};
+import { toggleTodoItem, deleteTodoItem } from "../lib/actions"
 
-export default function TodoList() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getTodoItems();
-      const todo = data || [];
-      console.log('todo', todo);
-      setTodos(todo);
-    };
-    
-    fetchData();
-  }, []);
+export default function TodoList({todos}: {todos: Todo[]}) {
 
   const toggleComplete = async (id: string, completed: boolean) => {
     await toggleTodoItem(id, !completed);
-    const updatedTodos = todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !completed } : todo
-    );
-    setTodos(updatedTodos);
   };
 
   const deleteTodo = async (id: string) => {
     await deleteTodoItem(id);
-    setTodos(todos.filter(todo => todo.id !== id));
   };
   if (todos.length === 0) {
     return (
@@ -37,7 +17,7 @@ export default function TodoList() {
     );
   }
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 mt-4">
           {todos.map(todo => (
             <div
               key={todo.id}
